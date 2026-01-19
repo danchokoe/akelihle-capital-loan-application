@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akelihle Capital | Short-Term Loans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-color: #000000; /* Pure black for the body */
+      }
+      /* Custom scrollbar for a better dark mode experience */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a0a; /* Neutral black */
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #f59e0b; /* Akelihle Yellow */
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #d97706; /* Darker Yellow */
+      }
+      /* Custom styles for range slider */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        background: #f59e0b; /* Akelihle Yellow */
+        cursor: pointer;
+        border-radius: 50%;
+        margin-top: -8px;
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        background: #f59e0b; /* Akelihle Yellow */
+        cursor: pointer;
+        border-radius: 50%;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

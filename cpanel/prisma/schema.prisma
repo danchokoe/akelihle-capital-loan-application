@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  applications LoanApplication[]
+
+  @@map("users")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model LoanApplication {
+  id              String            @id @default(cuid())
+  userId          String
+  status          ApplicationStatus @default(PENDING)
+  applicationDate DateTime          @default(now())
+  contractSent    Boolean           @default(false)
+  contractDate    DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Applicant Information
+  firstName        String
+  lastName         String
+  email            String
+  phone            String
+  employmentStatus EmploymentStatus
+  loanPurpose      String
+  companyName      String?
+  monthlyIncome    Float
+
+  // Documents
+  idDocument        String
+  proofOfResidence  String
+  proofOfSalary     String
+
+  // Loan Details
+  loanAmount        Float
+  loanTerm          Int
+  interestRate      Float
+  repaymentFee      Float
+  totalRepayment    Float
+
+  // Relations
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  auditLogs         AuditLog[]
+  communicationLogs CommunicationLog[]
+
+  @@map("loan_applications")
+}
+
+model AuditLog {
+  id            String            @id @default(cuid())
+  applicationId String
+  status        ApplicationStatus
+  date          DateTime          @default(now())
+  changedBy     String // 'user' or 'admin'
+  createdAt     DateTime          @default(now())
+
+  application LoanApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("audit_logs")
+}
+
+model CommunicationLog {
+  id             String   @id @default(cuid())
+  applicationId  String
+  type           String // 'Email' or 'SMS'
+  sender         String
+  recipient      String
+  subject        String?
+  contentSnippet String
+  sentAt         DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  application LoanApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("communication_logs")
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EmploymentStatus {
+  EMPLOYED
+  SELF_EMPLOYED
+  UNEMPLOYED
+}

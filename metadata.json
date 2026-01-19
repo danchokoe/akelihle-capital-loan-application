@@ -1,0 +1,5 @@
+{
+  "name": "Akelihle Capital Loan Application",
+  "description": "A web application for applying for short-term loans from Akelihle Capital. Users can calculate their repayment, submit an application, and track its status. Includes an admin panel for managing applications.",
+  "requestFramePermissions": []
+}

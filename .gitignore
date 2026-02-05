@@ -87,7 +87,9 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+# Allow public directory but ignore build artifacts
+public/build/
+public/dist/
 
 # Storybook build outputs
 .out

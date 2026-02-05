@@ -1,7 +1,18 @@
+// Import demo API for AWS Amplify deployment
+import { 
+  demoAuthAPI, 
+  demoApplicationsAPI, 
+  demoAdminAPI, 
+  shouldUseDemoMode 
+} from './demoApi';
+
 // Determine API base URL based on environment
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://your-backend-domain.com/api'  // Replace with your actual backend URL
   : 'http://localhost:3001/api';
+
+// Check if we should use demo mode (AWS Amplify deployment)
+const USE_DEMO_MODE = shouldUseDemoMode();
 
 // Token management
 const getToken = (): string | null => {
@@ -42,6 +53,10 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 // Auth API
 export const authAPI = {
   adminLogin: async (username: string, password: string) => {
+    if (USE_DEMO_MODE) {
+      return demoAuthAPI.adminLogin(username, password);
+    }
+    
     const response = await apiRequest('/auth/admin/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
@@ -52,10 +67,14 @@ export const authAPI = {
     return response;
   },
 
-  applicantSignup: async (email: string, password: string) => {
+  applicantSignup: async (email: string, password: string, firstName?: string, lastName?: string) => {
+    if (USE_DEMO_MODE) {
+      return demoAuthAPI.applicantSignup(email, password, firstName, lastName);
+    }
+    
     const response = await apiRequest('/auth/applicant/signup', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, firstName, lastName }),
     });
     if (response.token) {
       setToken(response.token);
@@ -64,6 +83,10 @@ export const authAPI = {
   },
 
   applicantLogin: async (email: string, password: string) => {
+    if (USE_DEMO_MODE) {
+      return demoAuthAPI.applicantLogin(email, password);
+    }
+    
     const response = await apiRequest('/auth/applicant/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -75,6 +98,10 @@ export const authAPI = {
   },
 
   logout: () => {
+    if (USE_DEMO_MODE) {
+      return demoAuthAPI.logout();
+    }
+    
     removeToken();
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isAdminLoggedIn');
@@ -84,6 +111,10 @@ export const authAPI = {
 // Applications API
 export const applicationsAPI = {
   submit: async (applicationData: any, files: { [key: string]: File }) => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.submit(applicationData, files);
+    }
+    
     const formData = new FormData();
     
     // Add application data
@@ -122,18 +153,30 @@ export const applicationsAPI = {
   },
 
   getById: async (id: string) => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.getById(id);
+    }
     return apiRequest(`/applications/${id}`);
   },
 
   getAll: async () => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.getAll();
+    }
     return apiRequest('/applications');
   },
 
   getUserApplications: async () => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.getUserApplications();
+    }
     return apiRequest('/applications/user/me');
   },
 
   updateStatus: async (id: string, status: string) => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.updateStatus(id, status);
+    }
     return apiRequest(`/applications/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify({ status }),
@@ -141,6 +184,10 @@ export const applicationsAPI = {
   },
 
   getContract: async (id: string) => {
+    if (USE_DEMO_MODE) {
+      return demoApplicationsAPI.getContract(id);
+    }
+    
     const token = getToken();
     const response = await fetch(`${API_BASE_URL}/applications/${id}/contract`, {
       headers: {
@@ -159,6 +206,9 @@ export const applicationsAPI = {
 // Admin API
 export const adminAPI = {
   updatePassword: async (newPassword: string) => {
+    if (USE_DEMO_MODE) {
+      return demoAdminAPI.updatePassword(newPassword);
+    }
     return apiRequest('/admin/password', {
       method: 'PATCH',
       body: JSON.stringify({ newPassword }),
@@ -166,7 +216,20 @@ export const adminAPI = {
   },
 
   getStats: async () => {
+    if (USE_DEMO_MODE) {
+      return demoAdminAPI.getStats();
+    }
     return apiRequest('/admin/stats');
+  },
+
+  sendNotification: async (applicationId: string, type: string, message: string) => {
+    if (USE_DEMO_MODE) {
+      return demoAdminAPI.sendNotification(applicationId, type, message);
+    }
+    return apiRequest('/admin/notify', {
+      method: 'POST',
+      body: JSON.stringify({ applicationId, type, message }),
+    });
   },
 };
 

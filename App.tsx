@@ -10,6 +10,7 @@ import UserDashboard from './components/UserDashboard';
 import FAQ from './components/FAQ';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Preloader from './components/Preloader';
+import DemoBanner from './components/DemoBanner';
 
 export type View = 'home' | 'status' | 'admin-login' | 'admin-dashboard' | 'applicant-auth' | 'user-dashboard' | 'faq' | 'privacy-policy';
 
@@ -56,6 +57,7 @@ const AppContent: React.FC = () => {
     <>
       <Preloader isLoading={isLoading} />
       <div className="min-h-screen bg-black text-white font-sans flex flex-col">
+        <DemoBanner />
         <Header setView={setCurrentView} currentView={currentView} />
         <main className="container mx-auto px-4 py-12 flex-grow">
           {renderView()}

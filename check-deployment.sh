@@ -5,7 +5,7 @@ echo "================================================"
 
 # Check if the main site is accessible
 echo "📱 Checking main site..."
-if curl -s -o /dev/null -w "%{http_code}" https://main.d11901v661d27z.amplifyapp.com/ | grep -q "200"; then
+if curl -s -o /dev/null -w "%{http_code}" https://main.d2jaijkly282aq.amplifyapp.com/ | grep -q "200"; then
     echo "✅ Main site is accessible"
 else
     echo "❌ Main site is not accessible or still building"
@@ -13,14 +13,14 @@ fi
 
 # Check if the logo file is accessible
 echo "🖼️  Checking logo file..."
-if curl -s -o /dev/null -w "%{http_code}" https://main.d11901v661d27z.amplifyapp.com/logo.png | grep -q "200"; then
+if curl -s -o /dev/null -w "%{http_code}" https://main.d2jaijkly282aq.amplifyapp.com/logo.png | grep -q "200"; then
     echo "✅ Logo file is accessible - deployment successful!"
 else
     echo "⏳ Logo file not yet accessible - deployment may still be in progress"
 fi
 
 echo ""
-echo "🔗 Live Site: https://main.d11901v661d27z.amplifyapp.com/"
+echo "🔗 Live Site: https://main.d2jaijkly282aq.amplifyapp.com/"
 echo "📊 GitHub Repo: https://github.com/danchokoe/akelihle-capital-loan-application"
 echo ""
 echo "💡 AWS Amplify typically takes 2-5 minutes to rebuild after a git push."

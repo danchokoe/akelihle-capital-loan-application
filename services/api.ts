@@ -14,6 +14,8 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 // Check if we should use demo mode (AWS Amplify deployment)
 const USE_DEMO_MODE = shouldUseDemoMode();
 
+console.log('API Service initialized:', { USE_DEMO_MODE, NODE_ENV: process.env.NODE_ENV });
+
 // Token management
 const getToken = (): string | null => {
   return localStorage.getItem('authToken');
@@ -161,8 +163,10 @@ export const applicationsAPI = {
 
   getAll: async () => {
     if (USE_DEMO_MODE) {
+      console.log('Using demo mode for getAll');
       return demoApplicationsAPI.getAll();
     }
+    console.log('Using real API for getAll');
     return apiRequest('/applications');
   },
 

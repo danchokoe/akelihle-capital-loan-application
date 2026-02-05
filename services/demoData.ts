@@ -166,7 +166,13 @@ export const demoStats = {
 
 // Helper functions for demo mode
 export const isDemoMode = (): boolean => {
-  return process.env.NODE_ENV === 'production' && window.location.hostname.includes('amplifyapp.com');
+  // Check if we're in production and on an Amplify domain
+  const isProduction = process.env.NODE_ENV === 'production';
+  const isAmplify = typeof window !== 'undefined' && window.location.hostname.includes('amplifyapp.com');
+  
+  console.log('Demo mode check:', { isProduction, isAmplify, hostname: typeof window !== 'undefined' ? window.location.hostname : 'server' });
+  
+  return isProduction && isAmplify;
 };
 
 export const getDemoToken = (type: 'admin' | 'user', userId?: string): string => {

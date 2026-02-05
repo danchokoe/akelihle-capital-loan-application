@@ -295,10 +295,22 @@ const AdminDashboard: React.FC = () => {
   const [viewingContract, setViewingContract] = useState<LoanApplication | null>(null);
   const [communicationPending, setCommunicationPending] = useState<{app: LoanApplication, status: ApplicationStatus} | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   // Load applications on mount
   useEffect(() => {
-    refreshApplications();
+    const loadApplications = async () => {
+      try {
+        console.log('AdminDashboard: Loading applications...');
+        await refreshApplications();
+        console.log('AdminDashboard: Applications loaded:', applications.length);
+      } catch (err) {
+        console.error('AdminDashboard: Error loading applications:', err);
+        setError('Failed to load applications. Please try refreshing the page.');
+      }
+    };
+    
+    loadApplications();
   }, []);
   
   const handleStatusChange = async (id: string, status: ApplicationStatus) => {
@@ -332,6 +344,21 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto">
+      {error && (
+        <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-6">
+          <strong>Error:</strong> {error}
+          <button 
+            onClick={() => {
+              setError(null);
+              refreshApplications();
+            }}
+            className="ml-4 text-yellow-400 hover:text-yellow-300 underline"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+      
       <div className="flex flex-col md:flex-row justify-between md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-yellow-400 uppercase tracking-tighter italic">Admin Console</h1>
         <div className="flex items-center gap-4">
@@ -372,7 +399,15 @@ const AdminDashboard: React.FC = () => {
       )}
       
       <div className="bg-neutral-900/50 rounded-lg shadow-2xl overflow-x-auto border border-neutral-800">
-        <table className="w-full text-xs text-left text-neutral-400 border-collapse">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+              <p className="text-neutral-400">Loading applications...</p>
+            </div>
+          </div>
+        ) : (
+          <table className="w-full text-xs text-left text-neutral-400 border-collapse">
           <thead className="text-[10px] text-yellow-400 uppercase bg-black/60 border-b border-neutral-800">
             <tr>
               <th scope="col" className="px-6 py-4 font-bold tracking-widest">Ref / Date</th>
@@ -455,6 +490,7 @@ const AdminDashboard: React.FC = () => {
             )}
           </tbody>
         </table>
+        )}
       </div>
       <div className="mt-6 flex items-center justify-between text-[10px] text-neutral-500 uppercase font-bold tracking-widest">
         <span>Records found: {filteredApplications.length}</span>

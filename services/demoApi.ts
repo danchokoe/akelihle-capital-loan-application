@@ -174,6 +174,8 @@ export const demoApplicationsAPI = {
   getAll: async () => {
     await delay();
     
+    console.log('Demo API getAll called, returning:', { applications: demoApplications.length, stats: demoStats });
+    
     return {
       applications: demoApplications,
       stats: demoStats

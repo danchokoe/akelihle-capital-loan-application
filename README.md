@@ -29,6 +29,8 @@
 
 Akelihle Capital is a modern, full-stack loan application system designed for short-term lending. The platform provides a seamless experience for loan applicants and comprehensive management tools for administrators.
 
+🚀 **Live Demo**: [https://main.d11901v661d27z.amplifyapp.com/](https://main.d11901v661d27z.amplifyapp.com/)
+
 ### 🎯 Key Highlights
 
 - **Professional UI/UX** with dark theme and responsive design

@@ -127,8 +127,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     try {
       setLoading(true);
       if (isAdminLoggedIn) {
+        console.log('Context: Fetching all applications for admin...');
         const response = await applicationsAPI.getAll();
-        setApplications(response.applications || []);
+        console.log('Context: API response:', response);
+        const apps = response.applications || [];
+        console.log('Context: Setting applications:', apps.length);
+        setApplications(apps);
       } else if (currentUser) {
         await getUserApplications();
       }

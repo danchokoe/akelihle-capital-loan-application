@@ -330,12 +330,13 @@ const AdminDashboard: React.FC = () => {
   const filteredApplications = useMemo(() => {
     const term = searchTerm.toLowerCase();
     return applications.filter(app => {
-      const fullName = `${app.firstName} ${app.lastName}`.toLowerCase();
-      const idMatch = app.id.toLowerCase().includes(term);
+      // Safely handle potentially undefined properties
+      const fullName = `${app.firstName || ''} ${app.lastName || ''}`.toLowerCase();
+      const idMatch = (app.id || '').toLowerCase().includes(term);
       const nameMatch = fullName.includes(term);
-      const statusMatch = app.status.toLowerCase().includes(term);
-      const emailMatch = app.email.toLowerCase().includes(term);
-      const employmentMatch = app.employmentStatus.toLowerCase().includes(term);
+      const statusMatch = (app.status || '').toLowerCase().includes(term);
+      const emailMatch = (app.email || '').toLowerCase().includes(term);
+      const employmentMatch = (app.employmentStatus || '').toLowerCase().includes(term);
       const purposeMatch = (app.loanPurpose || '').toLowerCase().includes(term);
       
       return idMatch || nameMatch || statusMatch || emailMatch || employmentMatch || purposeMatch;

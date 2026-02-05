@@ -34,7 +34,7 @@ export const demoApplications: LoanApplication[] = [
     lastName: 'Doe',
     email: 'john.doe@example.com',
     phone: '+27123456789',
-    employmentStatus: 'EMPLOYED',
+    employmentStatus: 'Employed',
     companyName: 'Tech Solutions SA',
     monthlyIncome: 15000,
     loanAmount: 2500,
@@ -49,8 +49,8 @@ export const demoApplications: LoanApplication[] = [
     status: ApplicationStatus.PENDING,
     contractSent: false,
     contractDate: null,
-    applicationDate: new Date('2024-01-15T10:30:00Z'),
-    updatedAt: new Date('2024-01-15T10:30:00Z')
+    applicationDate: new Date('2024-01-15T10:30:00Z').toISOString(),
+    updatedAt: new Date('2024-01-15T10:30:00Z').toISOString()
   },
   {
     id: 'app-002',
@@ -59,7 +59,7 @@ export const demoApplications: LoanApplication[] = [
     lastName: 'Johnson',
     email: 'sarah.johnson@example.com',
     phone: '+27987654321',
-    employmentStatus: 'EMPLOYED',
+    employmentStatus: 'Employed',
     companyName: 'Marketing Pro',
     monthlyIncome: 12000,
     loanAmount: 1500,
@@ -73,9 +73,9 @@ export const demoApplications: LoanApplication[] = [
     proofOfSalary: 'demo-salary-002.pdf', 
     status: ApplicationStatus.APPROVED,
     contractSent: true,
-    contractDate: new Date('2024-01-10T14:20:00Z'),
-    applicationDate: new Date('2024-01-08T09:15:00Z'),
-    updatedAt: new Date('2024-01-10T14:20:00Z')
+    contractDate: new Date('2024-01-10T14:20:00Z').toISOString(),
+    applicationDate: new Date('2024-01-08T09:15:00Z').toISOString(),
+    updatedAt: new Date('2024-01-10T14:20:00Z').toISOString()
   },
   {
     id: 'app-003',
@@ -84,7 +84,7 @@ export const demoApplications: LoanApplication[] = [
     lastName: 'Smith',
     email: 'michael.smith@example.com',
     phone: '+27555123456',
-    employmentStatus: 'SELF_EMPLOYED',
+    employmentStatus: 'Self-Employed',
     companyName: 'Smith Consulting',
     monthlyIncome: 8000,
     loanAmount: 1000,
@@ -99,8 +99,8 @@ export const demoApplications: LoanApplication[] = [
     status: ApplicationStatus.REJECTED,
     contractSent: false,
     contractDate: null,
-    applicationDate: new Date('2024-01-12T16:45:00Z'),
-    updatedAt: new Date('2024-01-13T11:30:00Z')
+    applicationDate: new Date('2024-01-12T16:45:00Z').toISOString(),
+    updatedAt: new Date('2024-01-13T11:30:00Z').toISOString()
   },
   {
     id: 'app-004',
@@ -109,7 +109,7 @@ export const demoApplications: LoanApplication[] = [
     lastName: 'Williams',
     email: 'lisa.williams@example.com',
     phone: '+27444987654',
-    employmentStatus: 'EMPLOYED',
+    employmentStatus: 'Employed',
     companyName: 'Healthcare Plus',
     monthlyIncome: 18000,
     loanAmount: 3000,
@@ -123,9 +123,9 @@ export const demoApplications: LoanApplication[] = [
     proofOfSalary: 'demo-salary-004.pdf',
     status: ApplicationStatus.APPROVED,
     contractSent: true,
-    contractDate: new Date('2024-01-14T13:10:00Z'),
-    applicationDate: new Date('2024-01-13T08:20:00Z'),
-    updatedAt: new Date('2024-01-14T13:10:00Z')
+    contractDate: new Date('2024-01-14T13:10:00Z').toISOString(),
+    applicationDate: new Date('2024-01-13T08:20:00Z').toISOString(),
+    updatedAt: new Date('2024-01-14T13:10:00Z').toISOString()
   },
   {
     id: 'app-005',
@@ -134,7 +134,7 @@ export const demoApplications: LoanApplication[] = [
     lastName: 'Brown',
     email: 'david.brown@example.com',
     phone: '+27333456789',
-    employmentStatus: 'EMPLOYED',
+    employmentStatus: 'Employed',
     companyName: 'Construction Co',
     monthlyIncome: 11000,
     loanAmount: 2000,
@@ -149,8 +149,8 @@ export const demoApplications: LoanApplication[] = [
     status: ApplicationStatus.PENDING,
     contractSent: false,
     contractDate: null,
-    applicationDate: new Date('2024-01-16T12:00:00Z'),
-    updatedAt: new Date('2024-01-16T12:00:00Z')
+    applicationDate: new Date('2024-01-16T12:00:00Z').toISOString(),
+    updatedAt: new Date('2024-01-16T12:00:00Z').toISOString()
   }
 ];
 
@@ -199,10 +199,10 @@ export const updateDemoApplicationStatus = (id: string, status: ApplicationStatu
   const appIndex = demoApplications.findIndex(app => app.id === id);
   if (appIndex !== -1) {
     demoApplications[appIndex].status = status;
-    demoApplications[appIndex].updatedAt = new Date();
+    demoApplications[appIndex].updatedAt = new Date().toISOString();
     if (status === ApplicationStatus.APPROVED) {
       demoApplications[appIndex].contractSent = true;
-      demoApplications[appIndex].contractDate = new Date();
+      demoApplications[appIndex].contractDate = new Date().toISOString();
     }
     return demoApplications[appIndex];
   }
@@ -213,8 +213,8 @@ export const addDemoApplication = (application: Omit<LoanApplication, 'id' | 'ap
   const newApp: LoanApplication = {
     ...application,
     id: `app-${Date.now()}`,
-    applicationDate: new Date(),
-    updatedAt: new Date()
+    applicationDate: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
   demoApplications.push(newApp);
   return newApp;

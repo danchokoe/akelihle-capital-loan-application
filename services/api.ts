@@ -1,4 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/api';
+// Determine API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://your-backend-domain.com/api'  // Replace with your actual backend URL
+  : 'http://localhost:3001/api';
 
 // Token management
 const getToken = (): string | null => {
